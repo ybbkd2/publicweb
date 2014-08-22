@@ -5,7 +5,7 @@
 package com.tencent.framework.controller;
 
 /**
- *
+ * 
  * @author lenovo
  */
 public class BaseController {
