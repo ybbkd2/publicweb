@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans:beans xmlns="http://www.springframework.org/schema/security"  
+             xmlns:beans="http://www.springframework.org/schema/beans"  
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">  
+                          
+    <global-method-security pre-post-annotations="enabled" />   
+    <!-- 该路径下的资源不用过滤 -->             
+    <http pattern="/js/**" security="none"/>  
+    <http use-expressions="true" auto-config="true">  
+        <intercept-url pattern="/super/**" access="isAuthenticated()"/>  
+        <!--定义登陆地址 与 loginForm页 --> 
+        <form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check" />
+        <!--退出清理 session， 指定退出URL -->
+        <logout invalidate-session="true" logout-url="/j_spring_security_logout" logout-success-url="/"/>  
+        <!-- 实现免登陆验证 -->  
+        <remember-me />  
+        <session-management invalid-session-url="/timeout.jsp">  
+            <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />  
+        </session-management>  
+        <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>  
+    </http>  
+    
+   
+    <!-- 配置过滤器 -->  
+    <beans:bean id="myFilter" class="com.tencent.module.security.service.MySecurityFilter">  
+        <!-- 用户拥有的权限 -->  
+        <beans:property name="authenticationManager" ref="myAuthenticationManager" />  
+        <!-- 用户是否拥有所请求资源的权限 -->  
+        <beans:property name="accessDecisionManager" ref="myAccessDecisionManager" />  
+        <!-- 资源与权限对应关系 -->  
+        <beans:property name="securityMetadataSource" ref="mySecurityMetadataSource" />  
+    </beans:bean>  
+    <!-- 实现了UserDetailsService的Bean -->  
+    <authentication-manager alias="myAuthenticationManager">  
+        <authentication-provider user-service-ref="securityUserService">  
+            <password-encoder  hash="md5" />
+        </authentication-provider>
+    </authentication-manager>  
+    <beans:bean id="myAccessDecisionManager" class="com.tencent.module.security.service.MyAccessDecisionManager"></beans:bean>  
+    <beans:bean id="mySecurityMetadataSource" class="com.tencent.module.security.service.MySecurityMetadataSource">  
+        <beans:property name="privilegeDao" ref="privilegeDao" />  
+    </beans:bean>  
+  
+</beans:beans>  
