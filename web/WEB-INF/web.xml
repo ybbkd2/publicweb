@@ -2,13 +2,18 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext-resource.xml,classpath:appContext-*.xml</param-value>
+        <param-value>classpath:applicationContext-resource.xml,classpath:appContext-security.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     
-
+    <!-- Spring Secutiry3.1的过滤器链配置  -->  
+    <filter> 
+        <filter-name>springSecurityFilterChain</filter-name> 
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
+    </filter> 
+    
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -26,18 +31,11 @@
         <filter-name>openSessionInViewFilter</filter-name>
         <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
     </filter>
-    
-    <!-- Spring Secutiry3.1的过滤器链配置  -->  
-    <filter> 
-        <filter-name>springSecurityFilterChain</filter-name> 
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
-    </filter> 
-    
     <filter-mapping> 
         <filter-name>openSessionInViewFilter</filter-name>  
         <url-pattern>*.do</url-pattern>  
     </filter-mapping> 
-
+<!---->    
     <filter-mapping> 
         <filter-name>springSecurityFilterChain</filter-name>  
         <url-pattern>/*</url-pattern>  
@@ -52,7 +50,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:applicationContext-mvc.xml</param-value>  
+            <param-value>classpath:applicationContext-mvc.xml</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>

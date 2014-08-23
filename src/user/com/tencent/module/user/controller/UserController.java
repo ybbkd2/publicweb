@@ -36,7 +36,7 @@ public class UserController extends BaseController {
 
 
 
-        User tu = userService.getUserDao().uniqueResult("username", "admin");
+        User tu = userService.getUserByName("admin");
 
         if (tu == null) {
             User user = new User();

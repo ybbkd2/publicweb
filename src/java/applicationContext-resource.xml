@@ -99,11 +99,12 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <aop:aspectj-autoproxy expose-proxy="true"/>
+    
     <!-- 采用@Transactional注解方式使用事务   
     <tx:annotation-driven transaction-manager="transactionManager"/> -->  
     <!-- 事务属性配置 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <aop:aspectj-autoproxy expose-proxy="true"/>
+    <tx:advice id="txAdvice"  transaction-manager="transactionManager">
         <tx:attributes>
             <!-- 方法对应的传播属性 -->
             <tx:method name="save*" propagation="REQUIRED" />
@@ -133,6 +134,8 @@
     <!-- 配置事务异常封装 -->
    <bean id="persistenceExceptionTranslationPostProcessor" 
        class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+   
+  
 
     <context:component-scan base-package="com.tencent">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />

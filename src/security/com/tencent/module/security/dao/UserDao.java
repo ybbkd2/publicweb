@@ -13,9 +13,7 @@ import org.springframework.stereotype.Repository;
  * @author lenovo
  */
 @Repository
-
 public class UserDao extends BaseHibernateDao<User, Long> {
     
-   
     
 }

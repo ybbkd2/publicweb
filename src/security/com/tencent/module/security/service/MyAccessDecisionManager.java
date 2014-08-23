@@ -6,6 +6,8 @@ package com.tencent.module.security.service;
 
 import java.util.Collection;
 import java.util.Iterator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -17,13 +19,20 @@ import org.springframework.security.core.GrantedAuthority;
  *
  * @author guoxp
  */
+
+
 public class MyAccessDecisionManager implements AccessDecisionManager {
+
+   private static final Log log = LogFactory.getLog(MyAccessDecisionManager.class);
+    
 
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-        System.out.println("MyAccessDecisionManager decide ...");
+        
+        log.debug("MyAccessDecisionManager decide ...");
+        
         if (configAttributes == null) {
-            System.out.println("no configAttributes ... ");
+            log.debug("no configAttributes ... ");
             return;
         }
         //所请求的资源拥有的权限(一个资源对多个权限)
@@ -32,7 +41,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             ConfigAttribute configAttribute = iterator.next();
             //访问所请求资源所需要的权限
             String needPermission = configAttribute.getAttribute();
-            System.out.println("needPermission is " + needPermission);
+            log.debug("needPermission is " + needPermission);
             //用户所拥有的权限authentication
             for (GrantedAuthority ga : authentication.getAuthorities()) {
                 System.out.println("list:" + ga.getAuthority());

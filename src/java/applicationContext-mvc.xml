@@ -24,7 +24,7 @@
 
 
     
-    <mvc:annotation-driven />
+ 
     
     <!-- ×¢½âÇëÇóÓ³Éä  
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">        
@@ -58,6 +58,7 @@
     <bean id="jaxb2RootElement_hmc" class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" /> 
     <bean id="jackson_hmc" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
     -->
+    <mvc:annotation-driven />
     
     <context:component-scan base-package="com.tencent" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />

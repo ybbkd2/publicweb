@@ -4,36 +4,33 @@
  */
 package com.tencent.module.security.service;
 
-import com.tencent.module.security.dao.PrivilegeDao;
-import com.tencent.module.security.entity.Privilege;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author guoxp
  */
- //1 加载资源与权限的对应关系
-@Transactional
+
+@Component
 public class MySecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     //由spring调用
+    @Autowired
+    private PrivilegeService privilegeService;
     
-    
-
-    private PrivilegeDao privilegeDao;
+    Thread updateThread = null;
+    boolean started = false;
 
     public MySecurityMetadataSource() {
 
@@ -56,64 +53,59 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 
+        System.out.println("----------MySecurityMetadataSource getAttributes -----------------");
         Collection<ConfigAttribute> val = null;
         FilterInvocation fi = ((FilterInvocation) object);
         String requestUrl = fi.getRequestUrl();
         System.out.println("requestUrl is " + requestUrl);
         if (resourceMap == null) {
-            loadResourceDefine();
+            loadResourcePrivilegeDefine();
         }
         Set<String> urls = resourceMap.keySet();
         Iterator<String> murl = urls.iterator();
         while (murl.hasNext()) {
-            AntPathRequestMatcher urlMatcher = new AntPathRequestMatcher(murl.next());
+            String privURL = murl.next();
+            AntPathRequestMatcher urlMatcher = new AntPathRequestMatcher(privURL);
             if (urlMatcher.matches(fi.getRequest())) {
-                val = resourceMap.get(murl);
-                System.out.println(urlMatcher.getPattern()  + " 匹配 。。。");
+                val = resourceMap.get(privURL);
+                System.out.println(urlMatcher.getPattern() + " 匹配 。。。");
+                System.out.println(val.size());
                 break;
             }
         }
-        
-        if (val!=null) {
-            
-        }
-        
+
+        //if (val == null) {
+//            val= new ArrayList<ConfigAttribute>();
+//            val.add(new SecurityConfig("ROLE_NO_USER"));
+       // }
+
         return val;
+
+    }
+    
+    private void loadResourcePrivilegeDefine() {
+        resourceMap = privilegeService.loadResourceDefine();
+        this.started = true;
+        updateThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (started) {
+                    
+                    try {
+                        Thread.sleep(1000L * 60 * 5 );
+                    } catch (InterruptedException ex) {
+                    }
+                    
+                    resourceMap = privilegeService.loadResourceDefine();
+                }
+            }
+            
+        });
         
-        
+        this.updateThread.setDaemon(true);
+        this.updateThread.start();
     }
 
     //加载所有资源与权限的关系
-    private void loadResourceDefine() {
-        if (resourceMap == null) {
-            System.out.println("loadResourceDefine ...");
-            resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
-            List<Privilege> resources = this.getPrivilegeDao().list();
-            for (Privilege resource : resources) {
-                Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
-                //以权限名封装为Spring的security Object
-                ConfigAttribute configAttribute = new SecurityConfig(resource.getName());
-                configAttributes.add(configAttribute);
-                resourceMap.put(resource.getMatchUrl(), configAttributes);
-            }
-        }
-
-        Set<Entry<String, Collection<ConfigAttribute>>> resourceSet = resourceMap.entrySet();
-        Iterator<Entry<String, Collection<ConfigAttribute>>> iterator = resourceSet.iterator();
-
-    }
-
-    /**
-     * @return the privilegeDao
-     */
-    public PrivilegeDao getPrivilegeDao() {
-        return privilegeDao;
-    }
-
-    /**
-     * @param privilegeDao the privilegeDao to set
-     */
-    public void setPrivilegeDao(PrivilegeDao privilegeDao) {
-        this.privilegeDao = privilegeDao;
-    }
 }

@@ -37,3 +37,4 @@ hs_err_pid*
 !/lib/commons-codec-1.6.jar
 !/lib/aopalliance.jar
 !/lib/cglib-nodep-2.1_3.jar
+/nbproject/private/

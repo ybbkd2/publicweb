@@ -44,7 +44,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
 
-    @Autowired
+
     private UserDao userDao;
 
     @Override
