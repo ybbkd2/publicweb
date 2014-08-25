@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>Timeout</h1>
+        <a href="login.jsp" >登录</a>
     </body>
 </html>
