@@ -4,6 +4,7 @@
  */
 package com.tencent.module.security.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,10 +30,11 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "tbl_user")
-public class User implements UserDetails, Serializable {
 
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue
+
     private long userid;
     @Column
     private String username;
@@ -44,10 +46,11 @@ public class User implements UserDetails, Serializable {
     private int locked;
     @Column
     private int accountExpired;
+
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "tbl_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> grantedRoles = new HashSet<Role>();
+    private transient Set<Role> grantedRoles = new HashSet<Role>();
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
@@ -56,10 +59,10 @@ public class User implements UserDetails, Serializable {
         while (roles.hasNext()) {
             Role role = roles.next();
             Iterator<Privilege> pri = role.getPrivileges().iterator();
-            while(pri.hasNext()) {
-               Privilege pi = pri.next();
-               GrantedAuthority auth = new SimpleGrantedAuthority("ROLE_" +pi.getId());
-               authorities.add(auth);
+            while (pri.hasNext()) {
+                Privilege pi = pri.next();
+                GrantedAuthority auth = new SimpleGrantedAuthority("ROLE_" + pi.getId());
+                authorities.add(auth);
             }
         }
         return authorities;
@@ -67,7 +70,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.accountExpired !=1 ;
+        return this.accountExpired != 1;
     }
 
     @Override

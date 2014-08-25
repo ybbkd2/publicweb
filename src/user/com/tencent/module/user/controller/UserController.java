@@ -5,15 +5,13 @@
 package com.tencent.module.user.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tencent.framework.controller.BaseController;
 import com.tencent.framework.page.Page;
-import com.tencent.framework.util.MD5Util;
 import com.tencent.module.security.entity.User;
-import com.tencent.module.user.entity.UserInfo;
 import com.tencent.module.user.service.UserService;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +32,16 @@ public class UserController extends BaseController {
     @RequestMapping("/list.do")
     public void list(HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
 
-        int page = Integer.parseInt(request.getParameter("page"));
-        int pagesize = Integer.parseInt(request.getParameter("limit"));
+        String pageStr =request.getParameter("page");
+        int page = Integer.parseInt( pageStr==null|| pageStr.equals("") ? "0" : pageStr );
+        
+        String limitStr = request.getParameter("limit");
+        int pagesize = Integer.parseInt(limitStr==null || limitStr.equals("") ? "0":limitStr);
         
         Page<User> list = userService.pagedlist(page,pagesize);
-        response.getWriter().println(new Gson().toJson(list));
+        GsonBuilder gb = new GsonBuilder();
+        Gson gson = gb.excludeFieldsWithoutExposeAnnotation().create();
+        response.getWriter().println(gson.toJson(list));
         
     }
 }

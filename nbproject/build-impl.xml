@@ -1063,9 +1063,10 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.standard.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.junit_4.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.spring4.0.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${libs.hibernate4.3.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.junit.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.springSecurity3.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.hibernate4.3.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.jackson-2.4.2.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
@@ -1099,9 +1100,10 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.standard.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.junit_4.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.spring4.0.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.hibernate4.3.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.junit.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.springSecurity3.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.hibernate4.3.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.jackson-2.4.2.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
