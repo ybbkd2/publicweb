@@ -331,6 +331,17 @@ public class BaseHibernateDao<T, PK extends java.io.Serializable> {
 		criteria.setMaxResults(pageSize);
 		return list(criteria);
 	}
+        
+        /*
+	 * 分页查询
+	 * 
+	 * @param
+	 * 
+	 * @return
+	 */
+	public Page<T> pagedQuery(int pageNo, int pageSize) {
+		return pagedQuery(createCriteria(), pageNo, pageSize);
+	}
 
 	/*
 	 * 分页查询Criteria
@@ -341,6 +352,7 @@ public class BaseHibernateDao<T, PK extends java.io.Serializable> {
 	 */
 	public Page<T> pagedQuery(Criteria criteria, int pageNo, int pageSize) {
 		// 返回查询结果集
+
 		List<T> list = findPage(criteria, pageNo, pageSize);
 		/*
 		 * 注：因为finaPage方法改变了查询条件导致countALL方法查询为空， 所以必须重新设置setFirstResult为0
@@ -355,7 +367,7 @@ public class BaseHibernateDao<T, PK extends java.io.Serializable> {
 		}
 
 		// 实际查询返回分页对象
-		int startIndex = Page.getStartOfPage(pageNo, pageSize);
+		int startIndex = Page.getStartIdxOfPage(pageNo, pageSize);
 
 		return new Page<T>(startIndex, totalCount, pageSize, list);
 	}
@@ -382,7 +394,7 @@ public class BaseHibernateDao<T, PK extends java.io.Serializable> {
 		}
 
 		// 实际查询返回分页对象
-		int startIndex = Page.getStartOfPage(pageNo, pageSize);
+		int startIndex = Page.getStartIdxOfPage(pageNo, pageSize);
 		// 返回查询结果集
 		List<T> list = findPage(criteria, pageSize, pageNo);
 
