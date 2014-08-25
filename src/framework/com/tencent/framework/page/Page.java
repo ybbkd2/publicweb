@@ -33,9 +33,9 @@ public class Page<E> {
         this.startIndex = startIndex;
         this.total = totalcount;
         this.pageSize = pagesize;
-        this.curPage = (int) ( startIndex%pagesize==0 ? startIndex/pagesize : startIndex/pagesize+1);
+        this.curPage = (int) ( (startIndex%pagesize==0 && startIndex >0) ? startIndex/pagesize : startIndex/pagesize +1 );
     }
-
+    
     public Page() {
         this.items = new ArrayList<E>();
     }

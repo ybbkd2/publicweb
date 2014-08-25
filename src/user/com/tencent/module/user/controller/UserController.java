@@ -4,8 +4,7 @@
  */
 package com.tencent.module.user.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tencent.framework.controller.BaseController;
 import com.tencent.framework.page.Page;
 import com.tencent.module.security.entity.User;
@@ -39,9 +38,8 @@ public class UserController extends BaseController {
         int pagesize = Integer.parseInt(limitStr==null || limitStr.equals("") ? "0":limitStr);
         
         Page<User> list = userService.pagedlist(page,pagesize);
-        GsonBuilder gb = new GsonBuilder();
-        Gson gson = gb.excludeFieldsWithoutExposeAnnotation().create();
-        response.getWriter().println(gson.toJson(list));
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().println(mapper.writeValueAsString(list));
         
     }
 }

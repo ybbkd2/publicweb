@@ -4,7 +4,7 @@
  */
 package com.tencent.module.security.entity;
 
-import com.google.gson.annotations.Expose;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,16 +30,21 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "tbl_user")
-
 public class User implements UserDetails, Serializable {
+    
+    private static final long  serialVersionUID = -4400386683517864019L;
+    
     @Id
     @GeneratedValue
 
     private long userid;
     @Column
     private String username;
+    
     @Column
+    @JsonIgnore
     private String password;
+    
     @Column
     private int enabled;
     @Column
@@ -47,10 +52,10 @@ public class User implements UserDetails, Serializable {
     @Column
     private int accountExpired;
 
-    
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "tbl_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private transient Set<Role> grantedRoles = new HashSet<Role>();
+    private Set<Role> grantedRoles = new HashSet<Role>();
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
