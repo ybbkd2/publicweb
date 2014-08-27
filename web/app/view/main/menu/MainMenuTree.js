@@ -4,7 +4,7 @@
 Ext.define('app.view.main.menu.MainMenuTree', {
     extend: 'Ext.tree.Panel',
     alias: 'widget.mainmenutree',
-    title: '系统菜单',
+    //title: '系统菜单',
     rootVisible: false,
     lines: false,
     initComponent: function() {

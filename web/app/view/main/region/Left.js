@@ -7,7 +7,7 @@ Ext.define('app.view.main.region.Left', {
     uses: ['app.view.main.menu.MainMenuTree',
         'app.view.main.menu.AccordionMainMenu'],
     layout: {
-        type: 'accordion',
+        type: 'fit',
         animate: true
     },
     glyph: 0xf0c9,

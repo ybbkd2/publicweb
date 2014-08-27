@@ -14,18 +14,12 @@ Ext.define('app.view.main.MainModel', {
         },
         // 用户单位信息和用户信息
         user: {
-            company: '武当太极公司',
-            department: '工程部',
-            name: '张三丰'
+            company: '192.168.0.222',
+            name: 'admin'
         },
         // 服务单位和服务人员信息
         service: {
-            company: '无锡熙旺公司',
-            name: '蒋锋',
-            phonenumber: '1320528----',
-            qq: '78580822',
-            email: 'jfok1972@qq.com',
-            copyright: '熙旺公司'
+            copyright: 'Company Inc.'
         },
         menuType: {
             value: 'toolbar'
