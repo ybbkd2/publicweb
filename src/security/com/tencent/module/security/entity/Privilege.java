@@ -5,6 +5,7 @@
  */
 package com.tencent.module.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.HashSet;
 import javax.persistence.CascadeType;
@@ -30,12 +31,29 @@ import javax.persistence.Table;
 public class Privilege implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
+    private String code;
+
     @Column
     private String name;
+
+    @Column
+    private String nodeType; // menu or privilege ?
+
+    @Column
+    private long glyph; // 图标值
+
+    @JsonIgnore
+    @Column
+    private String matchType; // 'ant' or 'regexp'
+    
+    @JsonIgnore
     @Column
     private String matchUrl;
+    
     @Column
     private String description;
 
@@ -163,6 +181,78 @@ public class Privilege implements Serializable {
      */
     public void setGrantedRoles(java.util.Set<Role> grantedRoles) {
         this.grantedRoles = grantedRoles;
+    }
+
+    /**
+     * @return the code
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * @param code the code to set
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
+     * @return the nodeType
+     */
+    public String getNodeType() {
+        return nodeType;
+    }
+
+    /**
+     * @param nodeType the nodeType to set
+     */
+    public void setNodeType(String nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    /**
+     * @return the matchType
+     */
+    public String getMatchType() {
+        return matchType;
+    }
+
+    /**
+     * @param matchType the matchType to set
+     */
+    public void setMatchType(String matchType) {
+        this.matchType = matchType;
+    }
+
+    /**
+     * @return the glyph
+     */
+    public long getGlyph() {
+        return glyph;
+    }
+
+    /**
+     * @param glyph the glyph to set
+     */
+    public void setGlyph(long glyph) {
+        this.glyph = glyph;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Privilege) {
+            return (this.id == ((Privilege) obj).getId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
     }
 
 }

@@ -17,9 +17,18 @@
     
     
     <!-- 该路径下的资源不用过滤 -->             
+ 
+    <http path-type="ant" pattern="/js/**" security="none" />
+    <http path-type="ant" pattern="/ext/**" security="none" />
+    <http path-type="ant" pattern="/css/**" security="none" />
+    <http path-type="ant" pattern="/fonts/**" security="none" />
+    <http path-type="ant" pattern="/**/*.js" security="none" />
+    <http pattern="/**/*.css" security="none" />
+    <http pattern="/**/*.json" security="none" />
     
     <http use-expressions="true" auto-config="true">  
-        <intercept-url pattern="/js/**" access="none" />
+    
+            
         <!--定义登陆地址 与 loginForm页 --> 
         <form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check" />
         <!--退出清理 session， 指定退出URL -->
@@ -30,7 +39,7 @@
         <session-management invalid-session-url="/timeout.jsp">  
             <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />  
         </session-management>  
-       <custom-filter ref="mySecurityFilter" before="FILTER_SECURITY_INTERCEPTOR"/> 
+        <custom-filter ref="mySecurityFilter" before="FILTER_SECURITY_INTERCEPTOR"/> 
     </http>  
     
     
