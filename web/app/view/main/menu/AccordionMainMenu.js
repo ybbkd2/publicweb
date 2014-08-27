@@ -20,7 +20,7 @@ Ext.define('app.view.main.menu.AccordionMainMenu', {
                 xtype: 'panel',
                 title: menugroup.text,
                 bodyStyle: {
-                    padding: '10px'
+                    padding: '5px'
                 },
                 layout: 'fit',
                 dockedItems: [{

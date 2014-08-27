@@ -11,12 +11,12 @@ Ext.define('app.view.main.MainController', {
     requires: ['Ext.MessageBox', 'Ext.window.Toast'],
     alias: 'controller.main',
     onClickButton: function() {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
+        Ext.Msg.confirm('Confirm', '您要注销吗？', 'onConfirmLogout', this);
     },
-    onConfirm: function(choice) {
+    onConfirmLogout: function(choice) {
         if (choice === 'yes') {
             // 加入下面这一条语句
-            this.getView().getViewModel().set('name', "修改后的title");
+            document.location.href="system_logout.do";
         }
     },
     // 选择了主菜单上的菜单后执行

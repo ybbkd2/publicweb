@@ -30,10 +30,11 @@
     
             
         <!--定义登陆地址 与 loginForm页 --> 
-        <form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check" />
+        <form-login login-page="/login.jsp"   username-parameter="t_username"  password-parameter="t_password" login-processing-url="/system_login.do" />
         <!--退出清理 session， 指定退出URL -->
-        <logout invalidate-session="true" logout-url="/j_spring_security_logout" logout-success-url="/"/>  
-        <intercept-url pattern="/super/**" access="isAuthenticated()" />
+        <logout invalidate-session="true" logout-url="/system_logout.do" logout-success-url="/login.jsp"/>  
+        <intercept-url pattern="/index.jsp" access="isAuthenticated()" />
+        <intercept-url pattern="/module/**" access="isAuthenticated()" />
         <!-- 实现免登陆验证 -->  
         <remember-me />  
         <session-management invalid-session-url="/timeout.jsp">  

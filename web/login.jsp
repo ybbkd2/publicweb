@@ -9,9 +9,9 @@
         <h1>Login</h1>
 
 
-        <form action="j_spring_security_check" method="post">
-            Account：<Input name="j_username"/><br/>
-            Password：<input name="j_password" type="password"/><br/>
+        <form action="system_login.do" method="post">
+            Account：<Input name="t_username"/><br/>
+            Password：<input name="t_password" type="password"/><br/>
             <input value="submit" type="submit"/>
         </form>
 

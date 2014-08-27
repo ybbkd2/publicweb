@@ -11,7 +11,7 @@ Ext.define('app.view.main.region.Top', {
     defaults: {
         xtype: 'buttontransparent'
     },
-    style: 'background-color : #cde6c7',
+   // style: 'background-color : #3892D3',
     height: 40,
     items: [{
             xtype: 'image',
@@ -55,7 +55,9 @@ Ext.define('app.view.main.region.Top', {
             glyph: 0xf002
         }, {
             text: '注销',
-            glyph: 0xf011
+            glyph: 0xf011,
+            handler: 'onClickButton'
+
         }, {
             glyph: 0xf102,
             handler: 'hiddenTopBottom',

@@ -8,8 +8,8 @@ Ext.define('app.view.main.MainModel', {
         name: 'app',
         // 系统信息
         system: {
-            name: '工程项目合同及资金管理系统',
-            version: '5.2014.06.60',
+            name: '项目管理系统',
+            version: '5.1.1.1',
             iconUrl: ''
         },
         // 用户单位信息和用户信息
