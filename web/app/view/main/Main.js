@@ -16,8 +16,7 @@ Ext.define('app.view.main.Main', {
     // MVVM架构的控制器的名称，会在当前路径中根据‘Main’ + Controller 来确定文件名
     // 这个我没找到其他任何可以自动加载MainController.js的依据，只能作上面的判断了
     viewModel: {
-        type: 'main'
-                // MVVM架构的viewModel的类型，会在当前路径中根据‘Main’ + Model 来确定文件名
+        type: 'main' // MVVM架构的viewModel的类型，会在当前路径中根据‘Main’ + Model 来确定文件名
     },
     initComponent: function() {
         Ext.setGlyphFontFamily('FontAwesome');  // 设置图标字体文件，只有设置了以后才能用glyph属性

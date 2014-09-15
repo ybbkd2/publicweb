@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PrivilegeService {
+    
+    private static final Log log = LogFactory.getLog(MySecurityMetadataSource.class);
 
     @Autowired
     PrivilegeDao privilegeDao;
@@ -31,7 +35,7 @@ public class PrivilegeService {
         Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
         if (resourceMap == null) {
-            System.out.println("loadResourceDefine ...");
+           log.debug("loadResourceDefine ...");
             resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
             List<Privilege> resources = this.privilegeDao.list();
             for (Privilege resource : resources) {
@@ -41,7 +45,7 @@ public class PrivilegeService {
                     ConfigAttribute configAttribute = new SecurityConfig("ROLE_" + resource.getId() );
                     configAttributes.add(configAttribute);
                     resourceMap.put(resource.getMatchUrl(), configAttributes);
-                    System.out.println("Privilege URL:" + resource.getMatchUrl());
+                    log.debug("Privilege URL:" + resource.getMatchUrl());
                 }
             }
         }

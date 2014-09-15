@@ -28,7 +28,7 @@
     
     <http use-expressions="true" auto-config="true">  
     
-            
+        <!-- admin md5:21232f297a57a5a743894a0e4a801fc3 -->
         <!--定义登陆地址 与 loginForm页 --> 
         <form-login login-page="/login.jsp"   username-parameter="t_username"  password-parameter="t_password" login-processing-url="/system_login.do" />
         <!--退出清理 session， 指定退出URL -->

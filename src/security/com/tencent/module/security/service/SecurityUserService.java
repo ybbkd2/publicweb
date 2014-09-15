@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityUserService implements UserDetailsService {
 
-    private static Log log = LogFactory.getLog(SecurityUserService.class);
+    private static final Log log = LogFactory.getLog(SecurityUserService.class);
 
     @Autowired
     private UserDao userDao;

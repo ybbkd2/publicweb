@@ -12,8 +12,10 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.SecurityMetadataSource;  
+import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,31 +26,29 @@ import org.springframework.stereotype.Component;
  *
  * @author guoxp
  */
-
 @Component
 public class MySecurityFilter extends AbstractSecurityInterceptor implements Filter {
 
+    private static final Log log = LogFactory.getLog(MySecurityFilter.class);
 
     @Autowired
     private MySecurityMetadataSource securityMetadataSource;
-    
+
 //    @Autowired
 //
-  private MyAccessDecisionManager accessDecisionManager = new MyAccessDecisionManager();
-    
+    private MyAccessDecisionManager accessDecisionManager = new MyAccessDecisionManager();
+
 //     @Autowired 
 //    private MyAccessDecisionManager accessDecisionManager;
-    
     @Autowired
     private AuthenticationManager myAuthenticationManager;
 
     @PostConstruct
     public void init() {
-        System.err.println(" ---------------  MySecurityFilter init--------------- ");
+        log.debug(" ---------------  MySecurityFilter init--------------- ");
         super.setAuthenticationManager(myAuthenticationManager);
         super.setAccessDecisionManager(accessDecisionManager);
     }
-
 
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
@@ -76,8 +76,6 @@ public class MySecurityFilter extends AbstractSecurityInterceptor implements Fil
         }
 
     }
-
-
 
     @Override
     public void init(FilterConfig arg0) throws ServletException {

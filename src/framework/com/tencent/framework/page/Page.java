@@ -15,6 +15,7 @@ public class Page<E> {
     private long total;   // 总记录数
     private int pageSize;  // 每页记录数
     private int curPage; // 当前页号
+    
 
     /**
      * 取得页开始index
@@ -81,9 +82,11 @@ public class Page<E> {
     public int getCurPage() {
         return curPage;
     }
-
-
-  
     
+    
+    public int getTotalPage() {
+        return (int) ( (this.total%this.pageSize==0 && this.pageSize >0) ? this.total/this.pageSize : this.total/this.pageSize+1 );
+    }
+
  
 }
