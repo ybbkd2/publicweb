@@ -127,8 +127,8 @@
     </tx:advice>
     <!-- 事务控制位置，一般在业务层service -->
     <aop:config>
-        <aop:pointcut id="txPointcut" expression="execution(* com..service..*.*(..))" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+        <aop:pointcut id="txPointcut1" expression="execution(* com..service..*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut1"/>
     </aop:config>
     
     <!-- 配置事务异常封装 -->
