@@ -2,25 +2,28 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tencent.module.security.service;
+package com.tencent.module.security;
 
+import com.tencent.framework.util.SpringContextHolder;
+import com.tencent.module.security.service.PrivilegeService;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.SessionHolder;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-/**
- *
- * @author guoxp
- */
+ 
 @Component
 public class MySecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
@@ -85,18 +88,24 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
             @Override
             public void run() {
                 while (started) {
-
+//                    Session ses = null;
+//                    SessionFactory sf = SpringContextHolder.getBean(SessionFactory.class);
                     try {
-                        Thread.sleep(1000L * 60 * 5);
-                    } catch (InterruptedException ex) {
+                        Thread.sleep(1000L * 10);
+//                        ses = sf.openSession();
+//                        TransactionSynchronizationManager.bindResource(sf, new SessionHolder(ses));
+                        resourceMap = privilegeService.loadResourceDefine();
+                    } catch (Exception ex) {
+                        log.error("", ex);
+                    } finally {
+//                        TransactionSynchronizationManager.unbindResource(sf);
+//                        if (ses !=null) {
+//                            ses.close();
+//                        }
                     }
-
-                    resourceMap = privilegeService.loadResourceDefine();
                 }
             }
-
         });
-
         this.updateThread.setDaemon(true);
         this.updateThread.start();
     }

@@ -5,6 +5,7 @@
  */
 package com.tencent.module.security.service;
 
+import com.tencent.module.security.MySecurityMetadataSource;
 import com.tencent.module.security.dao.PrivilegeDao;
 import com.tencent.module.security.entity.Privilege;
 import java.util.ArrayList;
