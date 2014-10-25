@@ -1,7 +1,7 @@
 package com.tencent.framework.page;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 表示分页中的一页。
@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Page<E> {
     
-    private List<E> items;//当前页包含的记录列表
+    private Collection<E> items;//当前页包含的记录列表
     private int startIndex;//当前页开始记录(起始为0)
     private long total;   // 总记录数
     private int pageSize;  // 每页记录数
@@ -29,7 +29,7 @@ public class Page<E> {
 
     
 
-    public Page(int startIndex, long totalcount, int pagesize, List<E> list) {
+    public Page(int startIndex, long totalcount, int pagesize, Collection<E> list) {
         this.items = list;
         this.startIndex = startIndex;
         this.total = totalcount;
@@ -44,7 +44,7 @@ public class Page<E> {
     /**
      * @return the items
      */
-    public List<E> getItems() {
+    public Collection<E> getItems() {
         return items;
     }
 
