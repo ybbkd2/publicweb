@@ -7,17 +7,24 @@ package com.tencent.module.security.service;
 
 import com.tencent.module.security.MySecurityMetadataSource;
 import com.tencent.module.security.dao.PrivilegeDao;
+import com.tencent.module.security.dao.RoleDao;
+import com.tencent.module.security.dao.UserDao;
 import com.tencent.module.security.entity.Privilege;
+import com.tencent.module.security.entity.Role;
+import com.tencent.module.security.entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,6 +38,12 @@ public class PrivilegeService {
 
     @Autowired
     PrivilegeDao privilegeDao;
+    
+    @Autowired
+    RoleDao roleDao;
+    
+    @Autowired
+    UserDao userDao;
 
     public Map<String, Collection<ConfigAttribute>> loadResourceDefine() {
         Map<String, Collection<ConfigAttribute>> resourceMap = null;
@@ -52,6 +65,24 @@ public class PrivilegeService {
         }
         
         return resourceMap;
+    }
+    
+    
+    public  Map<Long, Privilege> getMyPrivileges () {
+        UserDetails selfUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        User user =userDao.uniqueResult("username", selfUser.getUsername());
+        Set<Role> roles = user.getGrantedRoles();
+        
+        Map<Long, Privilege> pr = new HashMap<Long, Privilege>();
+        
+        for (Role role : roles) {
+           for (Privilege p : role.getPrivileges()) {
+               pr.put(p.getId(), p);
+           }
+        }
+        
+        return pr;
     }
 
 }

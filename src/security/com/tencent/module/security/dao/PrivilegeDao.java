@@ -8,6 +8,9 @@ package com.tencent.module.security.dao;
 
 import com.tencent.framework.dao.BaseHibernateDao;
 import com.tencent.module.security.entity.Privilege;
+import com.tencent.module.security.entity.Role;
+import java.util.List;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +19,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PrivilegeDao extends BaseHibernateDao<Privilege, Long> {
+    
+    public List<Privilege> getPrivileges(List<Role> roles) {
+        return createCriteria(Restrictions.in("role", roles)).list();
+    }
     
 }
