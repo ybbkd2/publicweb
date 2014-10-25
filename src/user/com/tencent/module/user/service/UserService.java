@@ -38,8 +38,8 @@ public class UserService {
         this.userInfoDao.saveOrUpdate(ui);
     }
 
-    public Page<User> pagedlist(int pageno, int pagesize) {
-        return userDao.pagedQuery(pageno, pagesize);
+    public Page<User> pagedlist(int pageno, int pageLimit) {
+        return userDao.pagedQuery(pageno, pageLimit);
     }
     
     public User getUserByName( String username) {

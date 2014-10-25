@@ -4,7 +4,6 @@
  */
 package com.tencent.module.user.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tencent.framework.controller.BaseController;
 import com.tencent.framework.page.Page;
 import com.tencent.module.security.entity.User;
@@ -32,14 +31,14 @@ public class UserController extends BaseController {
     public void list(HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
 
         String pageStr =request.getParameter("page");
-        int page = Integer.parseInt( pageStr==null|| pageStr.equals("") ? "0" : pageStr );
+        int page = Integer.parseInt( pageStr==null|| pageStr.equals("") ? "1" : pageStr );
         
         String limitStr = request.getParameter("limit");
-        int pagesize = Integer.parseInt(limitStr==null || limitStr.equals("") ? "0":limitStr);
+        int pagesize = Integer.parseInt(limitStr==null || limitStr.equals("") ? "20":limitStr);
         
         Page<User> list = userService.pagedlist(page,pagesize);
-        ObjectMapper mapper = new ObjectMapper();
-        response.getWriter().println(mapper.writeValueAsString(list));
+        
+        this.outJson(response, list);
         
     }
 }
