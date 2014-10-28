@@ -6,6 +6,7 @@
 package com.tencent.module.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.HashSet;
 import javax.persistence.CascadeType;
@@ -57,6 +58,7 @@ public class Privilege implements Serializable {
     @Column
     private String description;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "pid")
     private Privilege parent;//上级 
@@ -64,6 +66,7 @@ public class Privilege implements Serializable {
     @OneToMany(mappedBy = "parent", targetEntity = Privilege.class, cascade = CascadeType.ALL)
     private java.util.Set<Privilege> children = new HashSet<Privilege>();//下级 
 
+    @JsonIgnore  
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "tbl_role_privilege", joinColumns = @JoinColumn(name = "privilege_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private java.util.Set<Role> grantedRoles = new HashSet<Role>();//被授权的ROLE

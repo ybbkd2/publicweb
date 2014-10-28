@@ -23,15 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/super/security")
-public class ResourceController extends BaseController {
+public class PrivilegeController extends BaseController {
 
     @Autowired
     PrivilegeService privilegeService;
 
     @RequestMapping("/menu.do")
-    public void getMenu(HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
-        Map<Long, Privilege> prs = this.privilegeService.getMyPrivileges();
+    public void getMenu(HttpServletRequest request, HttpServletResponse response, String pid) throws IOException, NoSuchAlgorithmException {
         
+        long  parentid = (pid==null || pid.trim().equals("")) ?  0L : Long.valueOf(pid);
+        Map<Long, Privilege> prs = this.privilegeService.getMyPrivileges(parentid);
         this.outJson(response, prs.values() );
     }
 

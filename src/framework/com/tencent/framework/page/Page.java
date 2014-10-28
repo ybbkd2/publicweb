@@ -10,11 +10,13 @@ import java.util.Collection;
  */
 public class Page<E> {
     
-    private Collection<E> items;//当前页包含的记录列表
     private int startIndex;//当前页开始记录(起始为0)
     private long total;   // 总记录数
     private int pageSize;  // 每页记录数
     private int curPage; // 当前页号
+    
+    private Collection<E> items;//当前页包含的记录列表
+    
     
 
     /**
